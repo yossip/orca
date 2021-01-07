@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orca-devops
+spec:
+  selector:
+    matchLabels:
+      app: orca
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: orca
+    spec:
+      containers:
+       - name: orca-pod
+         image: 022786159174.dkr.ecr.us-east-2.amazonaws.com/orca:0.0.1
+         ports:
+         - containerPort: 3000
+         envFrom:
+         - configMapRef:
+             name: "orca-env-config"
+         imagePullPolicy: IfNotPresent
+         resources:
+            limits:
+              cpu: 150m
+              memory: 200Mi
+            requests:
+              cpu: 150m
+              memory: 100Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: orca-service
+spec:
+  ports:
+  - port: 80
+    targetPort: 80
+    name: http
+  selector:
+    app: orca
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "orca-env-config"
+data:
+  DATABASE_URL: psql-postgresql.orca.svc.cluster.local
+  SECRET_KEY: my-secret-pw
+---
+
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: orca
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: orca
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 50
+--- 
+
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: "devops"
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          serviceName: "orca"
+          servicePort: 80
+    host: "orca.example.com"
