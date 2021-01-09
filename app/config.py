@@ -7,5 +7,3 @@ class Config:
                                          + os.environ['DB_HOST'] 
                                          + ":5432/app.db")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-
-

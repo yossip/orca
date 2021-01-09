@@ -6,8 +6,12 @@ To build the cluster I used:
 Then I created and ecr repo, to gain access - I used 
 #aws --profile orca ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 022786159174.dkr.ecr.us-east-2.amazonaws.com
 
+
+installed postgress
+#helm-3 install psql stable/postgresql
+
 to build and push the container
 #docker build -t orca . 
-#docker tag orca 022786159174.dkr.ecr.us-east-2.amazonaws.com/orca:0.0.4
-#docker push 022786159174.dkr.ecr.us-east-2.amazonaws.com/orca:0.0.4
+#docker tag orca 022786159174.dkr.ecr.us-east-2.amazonaws.com/orca:<ver>
+#docker push 022786159174.dkr.ecr.us-east-2.amazonaws.com/orca:<ver>
 
