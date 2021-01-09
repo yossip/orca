@@ -15,6 +15,12 @@ spec:
       containers:
        - name: orca-pod
          image: 022786159174.dkr.ecr.us-east-2.amazonaws.com/orca:0.1.0
+         readinessProbe:
+          httpGet:
+             path: /_healthz
+             port: 5000
+          initialDelaySeconds: 300
+          periodSeconds: 30
          env:
          - name: DB_PASS
            valueFrom:

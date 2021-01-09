@@ -14,3 +14,4 @@ to build and push the container
 # docker build -t 022786159174.dkr.ecr.us-east-2.amazonaws.com/orca:<ver> . 
 # docker push 022786159174.dkr.ecr.us-east-2.amazonaws.com/orca:<ver>
 
+
