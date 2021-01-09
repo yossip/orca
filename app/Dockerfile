@@ -4,10 +4,11 @@ LABEL Orca Devops home assignment
 
 WORKDIR /docker-flask
 
-RUN apk update && apk add --no-cache postgresql-dev gcc python3-dev musl-dev
-RUN pip install psycopg2-binary pipenv Flask Flask-SQLAlchemy 
-RUN rm -vrf /var/cache/apk/*
+RUN apk update && \
+    apk add --no-cache --virtual build-deps gcc musl-dev postgresql-dev
 COPY . .
-RUN pipenv install --system --deploy
-
+RUN pip install pipenv
+RUN pipenv install --deploy --system 
+RUN pipenv install flask psycopg2-binary
+EXPOSE 5000
 CMD ./run_app.sh

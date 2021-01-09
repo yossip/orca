@@ -5,5 +5,5 @@ class Config:
     SQLALCHEMY_DATABASE_URI = ("postgres://"+ os.environ['DB_USER'] + ":" 
                                          + os.environ['DB_PASS']+ "@" 
                                          + os.environ['DB_HOST'] 
-                                         + ":5432/app.db")
+                                         + ":5432/postgres")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
